@@ -426,15 +426,6 @@ def get_contributor_data(article_data,
 
 
 def update_contributor_yaml(article_contributors, contributor_data, contributor_file):
-    for contributor in contributor_data['contributors']:
-        for article_contributor in article_contributors:
-            if article_contributor['name'] == contributor['name']:
-                for k in filter(lambda key: key != 'new',
-                                article_contributor.keys()):
-                    contributor[k] = article_contributor[k]
-                article_contributor['added'] = True
-                break
-
     for article_contributor in filter(lambda a: not (a.get('added')),
                                       article_contributors):
         contributor_data['contributors'].append({
@@ -442,7 +433,17 @@ def update_contributor_yaml(article_contributors, contributor_data, contributor_
             for key, value in article_contributor.items()
             if key not in ['new', 'added']
         })
-
+    
+    for contributor in contributor_data['contributors']:
+        for article_contributor in article_contributors:
+            if article_contributor['name'] == contributor['name']:
+                contributor = article_contributor
+                break
+        if contributor.get('added'):
+            del contributor['added']
+        if contributor.get('new'):
+            del contributor['new']
+    
     yaml.safe_dump(contributor_data,
                    file(contributor_file, 'w'),
                    encoding='utf-8',
