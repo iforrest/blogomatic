@@ -3,12 +3,12 @@ Blogomatic is a internal splunk tool for creating Splunk Security Pick blog post
 
 # Structure
 Blogomatic has the following structure
-./articles
-./content
-./output
-./templates
-blogify.py
-generate_html.py (deprecated)
+- ./articles
+- ./content
+- ./output
+- ./templates
+- blogify.py
+- generate_html.py (deprecated)
 
 ## ./articles
 This folder contains source documents from which blog posts will be created. Source documents can be in CSV or YAML format. Blogomatic determines whether a file is a YAML or CSV file simply by looking for the presence of .y in the file name (indicating a YAML file).
@@ -16,6 +16,7 @@ This folder contains source documents from which blog posts will be created. Sou
 It is imperative that the csv or yaml file follow the following format.
 
 YAML:
+```
 articles:
 -title: <article_name>
  contributor: <name_of_person_contributing_article>
@@ -26,9 +27,11 @@ articles:
  url: <url_for_article>
  summary: |
  <summary_for_article>
- 
+```
 CSV:
+```
 contributor,title,url,authors,summary
+```
 *note: for csv files authors must be a comma separated list
 
 For both document types, summary can contain [markdown](https://daringfireball.net/projects/markdown/syntax#link). Any links included will automatically be set to target="blank"
