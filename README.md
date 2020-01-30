@@ -1,0 +1,2 @@
+# blogomatic
+create security blog
