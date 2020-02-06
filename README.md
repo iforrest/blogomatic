@@ -63,8 +63,6 @@ Blogomatic requires the following python modules to run:
 
 # Command line arguments
 * --help: I'm not going to explain what this does
-* --twitter_link: *required* This is the twitter link used for sharing the blog post. It must be specified each time, it does not currently have a default or any mechanism for auto generation.
-* --blog_date: this is where, in mm/dd/yyyy format, you can specify the date the blog will be posted. This is used in a variety of different places within the default template. The default value is today's date.
 * --blog_author: This is the name of the person that is authoring the blog_post. At this time, it is required that this person be included in the "contributors.yml" file. Default value is "Ryan Kovar."
 * --article_file: If you want to specify an article file name within the "./articles" folder you CAN do so, otherwise blogomatic will ask you interactively.
 * --contributor_file: If you want to specify a contributors file within the "./content" folder you can do so, otherwise the default "contributors.yml" file will be used. There should be no need for this command line option.
@@ -74,14 +72,11 @@ Blogomatic requires the following python modules to run:
 # Example Usage
 Minimum parameters:
 ```
-    python blogify.py --twitter_link=https://splk.it/2CHCzp1
+    python blogify.py
 ```
-Additional parameters:
-```
-    python blogify.py --twitter_link=https://splk.it/2CHCzp1 --blog_date=02/01/2020
 ```
 Even more parameters:
 ```
-    python blogify.py --twitter_link=https://splk.it/2CHCzp1 --blog_date=02/01/2020 --article_file=january2019.csv --contributor_file=contributors.yml --standard_file=standard.yml --blog_author="Ryan Kovar"
+    python blogify.py --article_file=january2019.csv --contributor_file=contributors.yml --standard_file=standard.yml --blog_author="Ryan Kovar"
 ```
 
