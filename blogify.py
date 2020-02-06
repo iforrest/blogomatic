@@ -1,6 +1,7 @@
 from pyfiglet import figlet_format
 from PyInquirer import (Token, ValidationError, Validator, print_json, prompt,
                         style_from_dict)
+from unidecode import unidecode
 import os
 import yaml
 import csv
@@ -27,6 +28,13 @@ style = style_from_dict({
     Token.Answer: '#2196f3 bold',
     Token.Question: '',
 })
+
+
+class UnicodeDictReader(csv.DictReader, object):
+
+    def next(self):
+        row = super(UnicodeDictReader, self).next()
+        return {unidecode(unicode(key, 'utf-8-sig')): unidecode(unicode(value, 'utf-8-sig')) for key, value in row.iteritems()}
 
 
 def get_yaml(file_name, markdown_fields=[]):
@@ -123,16 +131,18 @@ def get_csv(file_name, markdown_fields=[]):
     csv_data = {'articles': []}
     expected_keys = ['title', 'authors', 'summary', 'contributor', 'url']
     try:
-        with io.open(file_name, 'r', encoding='utf-8-sig') as csv_file:
-            csv_reader = csv.DictReader(csv_file)
+        with open(file_name, 'rb') as csv_file:
+            csv_reader = UnicodeDictReader(csv_file)
             for row in csv_reader:
                 missing_keys = [
                     key for key in expected_keys if key not in row.keys()
                 ]
                 for missing_key in missing_keys:
                     row[missing_key] = ''
+                
                 row['authors'] = row['authors'].split(',')
                 csv_data['articles'].append(row)
+
     except Exception as err:
         raise Exception(
             'whoops... this file {} can\'t be opened, has an issue, or doesn\'t exist, please verify. details - {}'
@@ -409,7 +419,6 @@ def get_contributor_data(article_data,
 def update_contributor_yaml(article_contributors, contributor_data, contributor_file):
     for article_contributor in filter(lambda a: a.get('new'),
                                       article_contributors):
-        print str(article_contributor)
         contributor_data['contributors'].append(article_contributor)
 
     for contributor in contributor_data['contributors']:
@@ -467,7 +476,6 @@ def lets_do_this(blog_author, article_file,
                           if contributor_file else None))
     articles = match_articles_and_contributors(articles, contributors)
     standard = get_yaml('./content/{}'.format(standard_file), ['intro'])
-
     blog_author = get_blog_author(blog_author, contributors)
     
     # try:
