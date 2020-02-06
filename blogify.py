@@ -37,7 +37,7 @@ def get_yaml(file_name, markdown_fields=[]):
             yaml_data = mark_it_down(yaml_content, markdown_fields)
     except Exception as err:
         raise Exception(
-            "Please check to make sure a {} exists. Details - {}".format(
+            "please check to make sure a {} exists. details - {}".format(
                 file_name, str(err)))
 
     return yaml_data
@@ -50,11 +50,11 @@ def get_blog_author(author, contributors):
     ]
     if len(blog_author) == 0:
         raise Exception(
-            'No matching author infor can be found in "contributors" file with name {}.'
+            'no matching author infor can be found in "contributors" file with name {}.'
             .format(author))
     elif len(blog_author) > 1:
         raise Exception(
-            'No author info can be found in "contributors" file with name {}.'.
+            'no author info can be found in "contributors" file with name {}.'.
             format(author))
     return blog_author[0]
 
@@ -66,7 +66,7 @@ def get_file(file_name):
         with open(file_name, 'r') as f:
             file_data = f.read()
     except Exception as err:
-        raise Exception("Unable to open file {}. Details - {}".format(
+        raise Exception("unable to open file {}. details - {}".format(
             file_name, str(err)))
 
     return file_data
@@ -94,11 +94,11 @@ def match_articles_and_contributors(articles, contributors):
         ]
         if len(articles['articles'][i]['contributor']) == 0:
             raise Exception(
-                'No matching contributor could be found for {}.'.format(
+                'no matching contributor could be found for {}.'.format(
                     article['contributor']))
         elif len(articles['articles'][i]['contributor']) > 1:
             raise Exception(
-                'More than one matching contributor was found for {}. I suggest correcting the contributors file or having one of them change their names'
+                'more than one matching contributor was found for {}. i suggest correcting the contributors file or having one of them change their names'
                 .format(article['contributor']))
         else:
             articles['articles'][i]['contributor'] = articles['articles'][i][
@@ -135,7 +135,7 @@ def get_csv(file_name, markdown_fields=[]):
                 csv_data['articles'].append(row)
     except Exception as err:
         raise Exception(
-            'whoops... this file {} can\'t be opened, has an issue, or doesn\'t exist, please verify. Details - {}'
+            'whoops... this file {} can\'t be opened, has an issue, or doesn\'t exist, please verify. details - {}'
             .format(file_name, str(err)))
 
     csv_data = mark_it_down(csv_data, markdown_fields)
@@ -154,9 +154,9 @@ def output(string, color, font="ogre", figlet=False):
 
 
 def banner():
-    output('Welcome to', 'green')
+    output('welcome to', 'green')
     output('Blog-o-matic', 'green', figlet=True)
-    output('We hope you have a good time\n\n', 'green')
+    output('we hope you have a good time\n\n', 'green')
 
 
 def get_file_list():
@@ -191,7 +191,7 @@ def get_article_file(article_file=None):
                 'name':
                 'article_file_exists',
                 'message':
-                'is there an article file already created by not listed?',
+                'is there an article file already created but not listed?',
                 'when':
                 lambda answers: answers['article_file'] == 'none of the above'
             }])
@@ -249,7 +249,7 @@ def get_contributor_data(article_data,
                          contributor_file='./content/contributors.yml'):
     if not (article_data.get('articles')):
         raise Exception(
-            'Woah... it looks like your articles file isn\'t formatted correctly. Checkout the example and try again.'
+            'woah... it looks like your articles file isn\'t formatted correctly. check out the example and try again.'
         )
 
     if not os.path.exists(contributor_file):
@@ -280,27 +280,23 @@ def get_contributor_data(article_data,
         'green')
 
     for contributor in article_contributors:
-        existing_index = None
-
         play_it_again = True
         multipass = False
         while (play_it_again):
             if not (multipass):
                 if not (contributor['new']):
                     output(
-                        u'\n\u00A1que suerte! {name} is alread in the contributors file'
+                        u'\n\u00A1que suerte! {name} is already in the contributors file'
                         .format(name=contributor['name']), 'blue')
                     output(('\tcurrent data:\n'
                             '\t\tname: {name}\n'
                             '\t\twittycism: {witty}\n'
                             '\t\turl: {url}\n'
-                            '\t\tbyline: {byline}\n'
                             '\t\theadshot: {headshot}\n'
                             '\t\ttwitter: {twitter}\n'.format(
                                 name=contributor['name'],
                                 witty=contributor.get('wittycism', ''),
                                 url=contributor.get('url', ''),
-                                byline=contributor.get('byline', ''),
                                 headshot=contributor.get('headshot', ''),
                                 twitter=contributor.get('twitter', ''))),
                            'blue')
@@ -321,8 +317,6 @@ def get_contributor_data(article_data,
                     'checked': True
                 }, {
                     'name': 'url'
-                }, {
-                    'name': 'byline'
                 }, {
                     'name': 'headshot'
                 }, {
@@ -353,17 +347,6 @@ def get_contributor_data(article_data,
                 'when':
                 lambda answers: (('url' in answers.get('which_fields', [])) or
                                  (contributor['new'] and not (multipass)))
-            }, {
-                'type':
-                'input',
-                'name':
-                'byline',
-                'message':
-                'a byline, if you please (current value = {})?'.format(
-                    contributor.get('byline')),
-                'when':
-                lambda answers: (('byline' in answers.get('which_fields', []))
-                                 or (contributor['new'] and not (multipass)))
             }, {
                 'type':
                 'input',
@@ -404,13 +387,11 @@ def get_contributor_data(article_data,
                         '     name: {name}\n' \
                         '     wittycism: {wittycism}\n' \
                         '     url: {url}\n' \
-                        '     byline: {byline}\n' \
                         '     headshot: {headshot}\n' \
                         '     twitter: {twitter}\n'.format(
                             name=contributor['name'],
                             wittycism=contributor.get('wittycism', ''),
                             url=contributor.get('url', ''),
-                            byline=contributor.get('byline', ''),
                             headshot=contributor.get('headshot', ''),
                             twitter=contributor.get('twitter', '')
                         )
@@ -426,26 +407,19 @@ def get_contributor_data(article_data,
 
 
 def update_contributor_yaml(article_contributors, contributor_data, contributor_file):
-    for article_contributor in filter(lambda a: not (a.get('added')),
+    for article_contributor in filter(lambda a: a.get('new'),
                                       article_contributors):
-        contributor_data['contributors'].append({
-            key: value
-            for key, value in article_contributor.items()
-            if key not in ['new', 'added']
-        })
-    
+        print str(article_contributor)
+        contributor_data['contributors'].append(article_contributor)
+
     for contributor in contributor_data['contributors']:
-        for article_contributor in article_contributors:
-            if article_contributor['name'] == contributor['name']:
-                contributor = article_contributor
-                break
-        if contributor.get('added'):
+        if contributor.get('added') is not None:
             del contributor['added']
-        if contributor.get('new'):
+        if contributor.get('new') is not None:
             del contributor['new']
-    
+
     yaml.safe_dump(contributor_data,
-                   file(contributor_file, 'w'),
+                   file(contributor_file, 'w+'),
                    encoding='utf-8',
                    allow_unicode=True,
                    default_flow_style=False)
@@ -455,14 +429,6 @@ def update_contributor_yaml(article_contributors, contributor_data, contributor_
 @click.option('--blog_author',
               default='Ryan Kovar',
               help='required - the author of this blog post')
-@click.option(
-    '--blog_date',
-    default=(datetime.now()).strftime('%m/%d/%Y'),
-    help=
-    'desired blog date (must be in mm/dd/yyyy format; default to today\'s date)'
-)
-@click.option('--twitter_link',
-              help='required - twitter link for sharing post')
 @click.option('--article_file',
               help='optional - article file name (must be in ./articles)')
 @click.option(
@@ -482,14 +448,9 @@ def update_contributor_yaml(article_contributors, contributor_data, contributor_
     help=
     'name of file containing jinja2 blog template for output (mut be in ./templates)'
 )
-def lets_do_this(blog_author, blog_date, twitter_link, article_file,
+def lets_do_this(blog_author, article_file,
                  contributor_file, standard_file, blog_template):
     banner()
-
-    if not twitter_link:
-        raise Exception(
-            'you need a twitter link, please include in command line parameters with "--twitter_link parameter'
-        )
 
     if not blog_author:
         raise Exception(
@@ -508,21 +469,21 @@ def lets_do_this(blog_author, blog_date, twitter_link, article_file,
     standard = get_yaml('./content/{}'.format(standard_file), ['intro'])
 
     blog_author = get_blog_author(blog_author, contributors)
+    
+    # try:
+    #     blog_date = datetime.strptime(blog_date, '%m/%d/%Y')
+    # except Exception as err:
+    #     raise Exception(
+    #         'whoops... your blog date {} is in the wrong format. verify that it is in mm/dd/yyyy format. details - {}'
+    #         .format(blog_date, str(err)))
 
-    try:
-        blog_date = datetime.strptime(blog_date, '%m/%d/%Y')
-    except Exception as err:
-        raise Exception(
-            'whoops... your blog date {} is in the wrong format. verify that it is in mm/dd/yyyy format. details - {}'
-            .format(blog_date, str(err)))
-
-    standard['today_date'] = blog_date.strftime(
-        '%B %d, %Y')  # e.g. 'May 1, 2019'
-    standard['todays_date_no_day_plus_dashes'] = blog_date.strftime(
-        '%B-%Y')  # e.g. 'May-2019'
-    standard['todays_date_no_day'] = blog_date.strftime(
-        '%B %Y')  # e.g. 'May 2019'
-    standard['twitter_link'] = twitter_link
+    # standard['today_date'] = blog_date.strftime(
+    #     '%B %d, %Y')  # e.g. 'May 1, 2019'
+    # standard['todays_date_no_day_plus_dashes'] = blog_date.strftime(
+    #     '%B-%Y')  # e.g. 'May-2019'
+    # standard['todays_date_no_day'] = blog_date.strftime(
+    #     '%B %Y')  # e.g. 'May 2019'
+    # standard['twitter_link'] = twitter_link
 
     blog_template = get_file('./templates/{}'.format(blog_template))
 
@@ -531,10 +492,10 @@ def lets_do_this(blog_author, blog_date, twitter_link, article_file,
                              blog_author=blog_author,
                              standard=standard)
 
-    with open('./output/security_blog_{}.html'.format(blog_date.strftime('%B-%d-%Y')), 'w') as file:
+    with open('./output/security_blog_{}.html'.format((datetime.now()).strftime('%B-%d-%Y')), 'w') as file:
         file.write(rendered_html)
 
-    output('success - file created - {}'.format('./output/security_blog_{}.html'.format(blog_date.strftime('%B-%d-%Y'))), 'green')
+    output('success - file created - {}'.format('./output/security_blog_{}.html'.format((datetime.now()).strftime('%B-%d-%Y'))), 'green')
 
 if __name__ == '__main__':
     lets_do_this()
