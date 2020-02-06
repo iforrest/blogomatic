@@ -60,6 +60,7 @@ Blogomatic requires the following python modules to run:
 * markdown - pip install Markdown
 * jinja2 - pip install Jinja2
 * beautifulsoup4 - pip install beautifulsoup4
+* unidecode - pip install unidecode
 
 # Command line arguments
 * --help: I'm not going to explain what this does
