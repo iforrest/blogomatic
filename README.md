@@ -75,7 +75,7 @@ Minimum parameters:
 ```
     python blogify.py
 ```
-```
+
 Even more parameters:
 ```
     python blogify.py --article_file=january2019.csv --contributor_file=contributors.yml --standard_file=standard.yml --blog_author="Ryan Kovar"
