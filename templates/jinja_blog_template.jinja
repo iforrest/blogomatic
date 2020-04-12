@@ -18,7 +18,7 @@
         {% for article in articles %}
         <tr>
             <td width="98" valign="top">
-                <p style="text-align: center;"><a href="{{ blog_author.url }}"
+                <p style="text-align: center;"><a href="{{ article.contributor.url }}"
                         target="_blank">{{ article.contributor.name }}</a></p>
                 <p style="text-align: center;"><img
                         src="{{ article.contributor.headshot }}" width="150"></p>
